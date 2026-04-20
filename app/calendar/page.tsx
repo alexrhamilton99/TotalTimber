@@ -1,5 +1,6 @@
 import { getProjects } from '@/lib/queries';
 import type { Project } from '@/lib/types';
+import { CalendarSubscribe } from '@/components/calendar-subscribe';
 
 const statusDot: Record<string, string> = {
   'Quote': '#d97706', 'Approved': '#2563eb', 'Scheduled': '#7c3aed',
@@ -47,11 +48,14 @@ export default async function CalendarPage() {
 
   return (
     <div style={{ maxWidth: '900px' }}>
-      <div style={{ marginBottom: '28px' }}>
-        <h1 style={{ fontSize: '26px', fontWeight: '700', color: '#1c1917', letterSpacing: '-0.02em', margin: 0 }}>Calendar</h1>
-        <p style={{ fontSize: '14px', color: '#78716c', margin: '4px 0 0' }}>
-          {scheduled.length} scheduled projects
-        </p>
+      <div style={{ marginBottom: '28px', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}>
+        <div>
+          <h1 style={{ fontSize: '26px', fontWeight: '700', color: '#1c1917', letterSpacing: '-0.02em', margin: 0 }}>Calendar</h1>
+          <p style={{ fontSize: '14px', color: '#78716c', margin: '4px 0 0' }}>
+            {scheduled.length} scheduled projects
+          </p>
+        </div>
+        <CalendarSubscribe />
       </div>
 
       {Object.keys(byMonth).length === 0 ? (
