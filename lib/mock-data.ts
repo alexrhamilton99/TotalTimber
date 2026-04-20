@@ -1,0 +1,66 @@
+import type { Customer, Project } from '@/lib/types';
+
+export const mockCustomers: Customer[] = [
+  {
+    id: '1',
+    name: 'Mike Johnson',
+    phone: '555-123-4567',
+    email: 'mike@example.com',
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: '2',
+    name: 'Sarah Davis',
+    phone: '555-222-9988',
+    email: 'sarah@example.com',
+    created_at: new Date().toISOString(),
+  },
+];
+
+export const mockProjects: Project[] = [
+  {
+    id: '101',
+    customer_id: '1',
+    title: 'Garage Build - Johnson',
+    description: 'Customer wants material drop-off one day before start.',
+    job_address: '123 Main St, Minneapolis, MN',
+    quote_amount: 12500,
+    final_invoice_amount: 13250,
+    deposit_amount: 2500,
+    status: 'Scheduled',
+    start_date: '2026-04-20',
+    end_date: '2026-04-24',
+    created_at: new Date().toISOString(),
+    customers: mockCustomers[0],
+  },
+  {
+    id: '102',
+    customer_id: '2',
+    title: 'Deck Repair - Davis',
+    description: 'Replace damaged boards and reseal top deck.',
+    job_address: '88 Park Ave, St Paul, MN',
+    quote_amount: 4200,
+    final_invoice_amount: null,
+    deposit_amount: 1000,
+    status: 'In Progress',
+    start_date: '2026-04-14',
+    end_date: '2026-04-17',
+    created_at: new Date().toISOString(),
+    customers: mockCustomers[1],
+  },
+  {
+    id: '103',
+    customer_id: '1',
+    title: 'Shed Pad - Johnson',
+    description: 'Waiting on customer approval.',
+    job_address: '123 Main St, Minneapolis, MN',
+    quote_amount: 1800,
+    final_invoice_amount: null,
+    deposit_amount: null,
+    status: 'Quote',
+    start_date: '2026-04-28',
+    end_date: '2026-04-29',
+    created_at: new Date().toISOString(),
+    customers: mockCustomers[0],
+  },
+];
