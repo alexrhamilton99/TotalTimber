@@ -62,7 +62,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside style={{
+    <aside className="app-sidebar" style={{
       width: '220px',
       minHeight: '100vh',
       background: '#1c1917',

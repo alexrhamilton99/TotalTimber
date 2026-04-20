@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Sidebar } from '@/components/sidebar';
+import { MobileNav } from '@/components/mobile-nav';
 
 export const metadata: Metadata = {
   title: 'Total Timber Restoration',
@@ -33,10 +34,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f5f4' }}>
           <Sidebar />
-          <main style={{ flex: 1, padding: '32px', overflowX: 'hidden', minWidth: 0 }}>
+          <main className="app-main" style={{ flex: 1, padding: '32px', overflowX: 'hidden', minWidth: 0 }}>
             {children}
           </main>
         </div>
+        <MobileNav />
       </body>
     </html>
   );

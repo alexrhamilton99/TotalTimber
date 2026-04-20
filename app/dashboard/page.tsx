@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ProjectTable } from '@/components/project-table';
 import { StatsCard } from '@/components/stats-card';
+import { DashboardDate } from '@/components/dashboard-date';
 import { getProjects } from '@/lib/queries';
 import { currency } from '@/lib/utils';
 
@@ -21,9 +22,7 @@ export default async function DashboardPage() {
           <h1 style={{ fontSize: '26px', fontWeight: '700', color: '#1c1917', letterSpacing: '-0.02em', margin: 0 }}>
             Dashboard
           </h1>
-          <p style={{ fontSize: '14px', color: '#78716c', margin: '4px 0 0' }}>
-            {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
-          </p>
+          <DashboardDate />
         </div>
         <Link href="/projects/new" style={{
           display: 'inline-flex', alignItems: 'center', gap: '6px',
@@ -36,7 +35,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Stats */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', marginBottom: '28px' }}>
+      <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', marginBottom: '28px' }}>
         <StatsCard title="Active Jobs" value={String(activeJobs)} detail="In progress or scheduled" />
         <StatsCard title="Open Quotes" value={String(openQuotes)} detail="Awaiting approval" />
         <StatsCard title="Projects Total" value={String(projects.length)} detail="All time" />
