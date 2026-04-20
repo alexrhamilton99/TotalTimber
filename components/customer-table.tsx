@@ -74,20 +74,31 @@ function CustomerRow({ customer, onRefresh }: { customer: Customer; onRefresh: (
   const [editing, setEditing] = useState(false);
   const [saving, startSave] = useTransition();
   const [deleting, startDelete] = useTransition();
+  const [error, setError] = useState<string | null>(null);
 
   function handleSave(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
+    setError(null);
     startSave(async () => {
-      await updateCustomer(customer.id, fd);
-      setEditing(false);
+      try {
+        await updateCustomer(customer.id, fd);
+        setEditing(false);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Save failed');
+      }
     });
   }
 
   function handleDelete() {
-    if (!confirm(`Remove "${customer.name}"? This will fail if they have projects attached.`)) return;
+    if (!window.confirm(`Remove "${customer.name}"? This will fail if they have projects attached.`)) return;
+    setError(null);
     startDelete(async () => {
-      await deleteCustomer(customer.id);
+      try {
+        await deleteCustomer(customer.id);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Delete failed');
+      }
     });
   }
 
@@ -128,6 +139,15 @@ function CustomerRow({ customer, onRefresh }: { customer: Customer; onRefresh: (
   }
 
   return (
+    <>
+    {error && (
+      <tr>
+        <td colSpan={4} style={{ padding: '6px 16px', background: '#fef2f2' }}>
+          <span style={{ fontSize: '12px', color: '#dc2626' }}>{error}</span>
+          <button onClick={() => setError(null)} style={{ marginLeft: '8px', fontSize: '11px', color: '#78716c', background: 'none', border: 'none', cursor: 'pointer' }}>✕</button>
+        </td>
+      </tr>
+    )}
     <tr style={{ borderBottom: '1px solid #f5f5f4', opacity: deleting ? 0.4 : 1, transition: 'opacity 0.2s' }}>
       <td style={{ padding: '13px 16px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -156,6 +176,7 @@ function CustomerRow({ customer, onRefresh }: { customer: Customer; onRefresh: (
         </div>
       </td>
     </tr>
+    </>
   );
 }
 

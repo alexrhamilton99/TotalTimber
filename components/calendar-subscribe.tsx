@@ -5,23 +5,25 @@ import { useState } from 'react';
 export function CalendarSubscribe() {
   const [copied, setCopied] = useState(false);
   const [showUrl, setShowUrl] = useState(false);
+  const [manualUrl, setManualUrl] = useState('');
 
-  const getUrl = () => window.location.origin + '/api/calendar';
+  const handleSubscribe = () => {
+    const webcal = (window.location.origin + '/api/calendar').replace(/^https?:/, 'webcal:');
+    window.location.href = webcal;
+  };
 
   const handleCopy = async () => {
-    const url = getUrl();
+    const url = window.location.origin + '/api/calendar';
     let success = false;
 
     try {
       await navigator.clipboard.writeText(url);
       success = true;
     } catch {
-      // fallback for HTTP / older browsers
       try {
         const ta = document.createElement('textarea');
         ta.value = url;
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
+        ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
         document.body.appendChild(ta);
         ta.focus();
         ta.select();
@@ -36,23 +38,21 @@ export function CalendarSubscribe() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } else {
+      setManualUrl(url);
       setShowUrl(true);
     }
   };
 
-  const calUrl = typeof window !== 'undefined' ? getUrl() : '';
-  const webcalUrl = calUrl.replace(/^https?:/, 'webcal:');
-
   return (
     <div>
       <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-        <a
-          href={webcalUrl}
+        <button
+          onClick={handleSubscribe}
           style={{
             display: 'inline-flex', alignItems: 'center', gap: '6px',
             padding: '8px 14px', background: '#16a34a', color: '#fff',
             fontSize: '13px', fontWeight: '600', borderRadius: '8px',
-            border: 'none', cursor: 'pointer', textDecoration: 'none',
+            border: 'none', cursor: 'pointer',
           }}
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -62,7 +62,7 @@ export function CalendarSubscribe() {
             <line x1="12" y1="14" x2="12" y2="18"/><line x1="10" y1="16" x2="14" y2="16"/>
           </svg>
           Subscribe
-        </a>
+        </button>
         <button
           onClick={handleCopy}
           style={{
@@ -82,10 +82,10 @@ export function CalendarSubscribe() {
 
       {showUrl && (
         <div style={{ marginTop: '10px', background: '#f5f5f4', border: '1px solid #e7e5e4', borderRadius: '8px', padding: '10px 12px' }}>
-          <div style={{ fontSize: '12px', color: '#78716c', marginBottom: '4px' }}>Copy this URL manually:</div>
+          <div style={{ fontSize: '12px', color: '#78716c', marginBottom: '4px' }}>Copy this URL to subscribe:</div>
           <input
             readOnly
-            value={calUrl}
+            value={manualUrl}
             onFocus={(e) => e.target.select()}
             style={{
               width: '100%', fontSize: '12px', padding: '6px 8px',
