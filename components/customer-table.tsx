@@ -25,17 +25,32 @@ function Avatar({ name }: { name: string }) {
 
 function AddRow({ onDone }: { onDone: () => void }) {
   const [pending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
+    setError(null);
     startTransition(async () => {
-      await createCustomer(fd);
-      onDone();
+      try {
+        await createCustomer(fd);
+        onDone();
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to add customer');
+      }
     });
   }
 
   return (
+    <>
+    {error && (
+      <tr>
+        <td colSpan={4} style={{ padding: '6px 16px', background: '#fef2f2' }}>
+          <span style={{ fontSize: '12px', color: '#dc2626' }}>Error: {error}</span>
+          <button onClick={() => setError(null)} style={{ marginLeft: '8px', fontSize: '11px', color: '#78716c', background: 'none', border: 'none', cursor: 'pointer' }}>✕</button>
+        </td>
+      </tr>
+    )}
     <tr style={{ background: '#f0fdf4', borderBottom: '1px solid #bbf7d0' }}>
       <td style={{ padding: '10px 16px' }}>
         <form id="add-customer-form" onSubmit={handleSubmit} style={{ display: 'contents' }}>
@@ -67,6 +82,7 @@ function AddRow({ onDone }: { onDone: () => void }) {
         </div>
       </td>
     </tr>
+    </>
   );
 }
 

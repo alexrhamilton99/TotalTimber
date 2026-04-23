@@ -29,28 +29,42 @@ export function ProjectForm({ customers: initialCustomers }: { customers: Custom
   const [selectedCustomerId, setSelectedCustomerId] = useState('');
   const [addingCustomer, startAddCustomer] = useTransition();
   const [submitting, startSubmit] = useTransition();
+  const [customerError, setCustomerError] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const newCustomerFormRef = useRef<HTMLFormElement>(null);
   const mainFormRef = useRef<HTMLFormElement>(null);
 
   function handleAddCustomer(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
+    setCustomerError(null);
     startAddCustomer(async () => {
-      const newId = await createCustomerAndReturn(fd);
-      const name = String(fd.get('name') || '');
-      const phone = String(fd.get('phone') || '') || null;
-      const email = String(fd.get('email') || '') || null;
-      setCustomers(prev => [...prev, { id: newId, name, phone, email, created_at: new Date().toISOString() }].sort((a,b) => a.name.localeCompare(b.name)));
-      setSelectedCustomerId(newId);
-      setShowNewCustomer(false);
-      newCustomerFormRef.current?.reset();
+      try {
+        const newId = await createCustomerAndReturn(fd);
+        const name = String(fd.get('name') || '');
+        const phone = String(fd.get('phone') || '') || null;
+        const email = String(fd.get('email') || '') || null;
+        setCustomers(prev => [...prev, { id: newId, name, phone, email, created_at: new Date().toISOString() }].sort((a,b) => a.name.localeCompare(b.name)));
+        setSelectedCustomerId(newId);
+        setShowNewCustomer(false);
+        newCustomerFormRef.current?.reset();
+      } catch (err) {
+        setCustomerError(err instanceof Error ? err.message : 'Failed to add customer');
+      }
     });
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
-    startSubmit(() => createProject(fd));
+    setSubmitError(null);
+    startSubmit(async () => {
+      try {
+        await createProject(fd);
+      } catch (err) {
+        setSubmitError(err instanceof Error ? err.message : 'Failed to save project');
+      }
+    });
   }
 
   return (
@@ -101,6 +115,9 @@ export function ProjectForm({ customers: initialCustomers }: { customers: Custom
                   <div style={{ fontSize: '12px', fontWeight: '700', color: '#16a34a', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                     New Customer
                   </div>
+                  {customerError && (
+                    <div style={{ fontSize: '12px', color: '#dc2626', marginBottom: '6px' }}>Error: {customerError}</div>
+                  )}
                   <form ref={newCustomerFormRef} onSubmit={handleAddCustomer} style={{ display: 'grid', gap: '8px' }}>
                     <input name="name" style={{ ...inputStyle, fontSize: '13px', padding: '7px 10px' }} placeholder="Full name *" required autoFocus />
                     <input name="phone" style={{ ...inputStyle, fontSize: '13px', padding: '7px 10px' }} placeholder="Phone (optional)" />
@@ -183,6 +200,11 @@ export function ProjectForm({ customers: initialCustomers }: { customers: Custom
         </div>
 
         {/* Footer */}
+        {submitError && (
+          <div style={{ padding: '10px 24px', background: '#fef2f2', borderTop: '1px solid #fecaca' }}>
+            <span style={{ fontSize: '13px', color: '#dc2626' }}>Error: {submitError}</span>
+          </div>
+        )}
         <div style={{ padding: '16px 24px', background: '#fafaf9', display: 'flex', gap: '10px' }}>
           <button type="submit" disabled={submitting} style={{
             padding: '10px 20px', background: submitting ? '#86efac' : '#16a34a', color: '#fff',
