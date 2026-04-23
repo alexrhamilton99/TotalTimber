@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useTransition, useRef } from 'react';
-import { useRouter } from 'next/navigation';
 import { createProject } from '@/app/projects/new/actions';
 import { createCustomerAndReturn } from '@/app/customers/actions';
 import type { Customer } from '@/lib/types';
@@ -27,27 +26,29 @@ export function ProjectForm({ customers: initialCustomers }: { customers: Custom
   const [customers, setCustomers] = useState(initialCustomers);
   const [showNewCustomer, setShowNewCustomer] = useState(false);
   const [selectedCustomerId, setSelectedCustomerId] = useState('');
+  const [newName, setNewName] = useState('');
+  const [newPhone, setNewPhone] = useState('');
+  const [newEmail, setNewEmail] = useState('');
   const [addingCustomer, startAddCustomer] = useTransition();
   const [submitting, startSubmit] = useTransition();
   const [customerError, setCustomerError] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const newCustomerFormRef = useRef<HTMLFormElement>(null);
   const mainFormRef = useRef<HTMLFormElement>(null);
 
-  function handleAddCustomer(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const fd = new FormData(e.currentTarget);
+  function handleAddCustomer() {
+    if (!newName.trim()) return;
+    const fd = new FormData();
+    fd.set('name', newName.trim());
+    fd.set('phone', newPhone.trim());
+    fd.set('email', newEmail.trim());
     setCustomerError(null);
     startAddCustomer(async () => {
       try {
         const newId = await createCustomerAndReturn(fd);
-        const name = String(fd.get('name') || '');
-        const phone = String(fd.get('phone') || '') || null;
-        const email = String(fd.get('email') || '') || null;
-        setCustomers(prev => [...prev, { id: newId, name, phone, email, created_at: new Date().toISOString() }].sort((a,b) => a.name.localeCompare(b.name)));
+        setCustomers(prev => [...prev, { id: newId, name: newName.trim(), phone: newPhone.trim() || null, email: newEmail.trim() || null, created_at: new Date().toISOString() }].sort((a, b) => a.name.localeCompare(b.name)));
         setSelectedCustomerId(newId);
         setShowNewCustomer(false);
-        newCustomerFormRef.current?.reset();
+        setNewName(''); setNewPhone(''); setNewEmail('');
       } catch (err) {
         setCustomerError(err instanceof Error ? err.message : 'Failed to add customer');
       }
@@ -118,19 +119,35 @@ export function ProjectForm({ customers: initialCustomers }: { customers: Custom
                   {customerError && (
                     <div style={{ fontSize: '12px', color: '#dc2626', marginBottom: '6px' }}>Error: {customerError}</div>
                   )}
-                  <form ref={newCustomerFormRef} onSubmit={handleAddCustomer} style={{ display: 'grid', gap: '8px' }}>
-                    <input name="name" style={{ ...inputStyle, fontSize: '13px', padding: '7px 10px' }} placeholder="Full name *" required autoFocus />
-                    <input name="phone" style={{ ...inputStyle, fontSize: '13px', padding: '7px 10px' }} placeholder="Phone (optional)" />
-                    <input name="email" style={{ ...inputStyle, fontSize: '13px', padding: '7px 10px' }} placeholder="Email (optional)" />
+                  <div style={{ display: 'grid', gap: '8px' }}>
+                    <input
+                      value={newName} onChange={e => setNewName(e.target.value)}
+                      style={{ ...inputStyle, fontSize: '13px', padding: '7px 10px' }}
+                      placeholder="Full name *" autoFocus
+                      onKeyDown={e => e.key === 'Enter' && handleAddCustomer()}
+                    />
+                    <input
+                      value={newPhone} onChange={e => setNewPhone(e.target.value)}
+                      style={{ ...inputStyle, fontSize: '13px', padding: '7px 10px' }}
+                      placeholder="Phone (optional)"
+                      onKeyDown={e => e.key === 'Enter' && handleAddCustomer()}
+                    />
+                    <input
+                      value={newEmail} onChange={e => setNewEmail(e.target.value)}
+                      style={{ ...inputStyle, fontSize: '13px', padding: '7px 10px' }}
+                      placeholder="Email (optional)"
+                      onKeyDown={e => e.key === 'Enter' && handleAddCustomer()}
+                    />
                     <div style={{ display: 'flex', gap: '6px', marginTop: '2px' }}>
-                      <button type="submit" disabled={addingCustomer} style={{
+                      <button type="button" onClick={handleAddCustomer} disabled={addingCustomer || !newName.trim()} style={{
                         padding: '7px 14px', background: '#16a34a', color: '#fff',
                         fontSize: '12px', fontWeight: '600', borderRadius: '6px',
                         border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+                        opacity: !newName.trim() ? 0.5 : 1,
                       }}>
                         {addingCustomer ? 'Adding…' : 'Add & Select'}
                       </button>
-                      <button type="button" onClick={() => setShowNewCustomer(false)} style={{
+                      <button type="button" onClick={() => { setShowNewCustomer(false); setCustomerError(null); }} style={{
                         padding: '7px 10px', background: '#fff', color: '#57534e',
                         fontSize: '12px', fontWeight: '500', borderRadius: '6px',
                         border: '1.5px solid #e7e5e4', cursor: 'pointer', fontFamily: 'inherit',
@@ -138,7 +155,7 @@ export function ProjectForm({ customers: initialCustomers }: { customers: Custom
                         Cancel
                       </button>
                     </div>
-                  </form>
+                  </div>
                 </div>
               )}
             </div>

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useState, useTransition, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import type { Customer } from '@/lib/types';
 import { createCustomer, updateCustomer, deleteCustomer } from '@/app/customers/actions';
 
@@ -23,17 +24,24 @@ function Avatar({ name }: { name: string }) {
   );
 }
 
-function AddRow({ onDone }: { onDone: () => void }) {
+function AddRow({ onDone, onAdded }: { onDone: () => void; onAdded: (c: Customer) => void }) {
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const fd = new FormData(e.currentTarget);
+  function handleAdd() {
+    if (!name.trim()) return;
     setError(null);
+    const fd = new FormData();
+    fd.set('name', name.trim());
+    fd.set('phone', phone.trim());
+    fd.set('email', email.trim());
     startTransition(async () => {
       try {
-        await createCustomer(fd);
+        const customer = await createCustomer(fd);
+        onAdded(customer);
         onDone();
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to add customer');
@@ -53,22 +61,33 @@ function AddRow({ onDone }: { onDone: () => void }) {
     )}
     <tr style={{ background: '#f0fdf4', borderBottom: '1px solid #bbf7d0' }}>
       <td style={{ padding: '10px 16px' }}>
-        <form id="add-customer-form" onSubmit={handleSubmit} style={{ display: 'contents' }}>
-          <input name="name" style={inputStyle} placeholder="Full name *" required autoFocus />
-        </form>
+        <input
+          value={name} onChange={e => setName(e.target.value)}
+          style={inputStyle} placeholder="Full name *" autoFocus
+          onKeyDown={e => e.key === 'Enter' && handleAdd()}
+        />
       </td>
       <td style={{ padding: '10px 16px' }}>
-        <input form="add-customer-form" name="phone" style={inputStyle} placeholder="(555) 123-4567" />
+        <input
+          value={phone} onChange={e => setPhone(e.target.value)}
+          style={inputStyle} placeholder="(555) 123-4567"
+          onKeyDown={e => e.key === 'Enter' && handleAdd()}
+        />
       </td>
       <td style={{ padding: '10px 16px' }}>
-        <input form="add-customer-form" name="email" style={inputStyle} placeholder="email@example.com" />
+        <input
+          value={email} onChange={e => setEmail(e.target.value)}
+          style={inputStyle} placeholder="email@example.com"
+          onKeyDown={e => e.key === 'Enter' && handleAdd()}
+        />
       </td>
       <td style={{ padding: '10px 16px' }}>
         <div style={{ display: 'flex', gap: '6px' }}>
-          <button form="add-customer-form" type="submit" disabled={pending} style={{
+          <button type="button" onClick={handleAdd} disabled={pending || !name.trim()} style={{
             padding: '6px 12px', background: '#16a34a', color: '#fff',
             fontSize: '12px', fontWeight: '600', borderRadius: '6px',
             border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+            opacity: !name.trim() ? 0.5 : 1,
           }}>
             {pending ? '…' : 'Add'}
           </button>
@@ -86,11 +105,16 @@ function AddRow({ onDone }: { onDone: () => void }) {
   );
 }
 
-function CustomerRow({ customer, onRefresh }: { customer: Customer; onRefresh: () => void }) {
+function CustomerRow({ customer, onUpdate, onDelete }: {
+  customer: Customer;
+  onUpdate: (c: Customer) => void;
+  onDelete: (id: string) => void;
+}) {
   const [editing, setEditing] = useState(false);
   const [saving, startSave] = useTransition();
   const [deleting, startDelete] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   function handleSave(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -99,7 +123,15 @@ function CustomerRow({ customer, onRefresh }: { customer: Customer; onRefresh: (
     startSave(async () => {
       try {
         await updateCustomer(customer.id, fd);
+        const updated: Customer = {
+          ...customer,
+          name: String(fd.get('name') || '').trim(),
+          phone: String(fd.get('phone') || '').trim() || null,
+          email: String(fd.get('email') || '').trim() || null,
+        };
+        onUpdate(updated);
         setEditing(false);
+        router.refresh();
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Save failed');
       }
@@ -112,6 +144,8 @@ function CustomerRow({ customer, onRefresh }: { customer: Customer; onRefresh: (
     startDelete(async () => {
       try {
         await deleteCustomer(customer.id);
+        onDelete(customer.id);
+        router.refresh();
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Delete failed');
       }
@@ -133,6 +167,7 @@ function CustomerRow({ customer, onRefresh }: { customer: Customer; onRefresh: (
           <input form={`edit-${customer.id}`} name="email" style={inputStyle} defaultValue={customer.email ?? ''} placeholder="email@example.com" />
         </td>
         <td style={{ padding: '10px 16px' }}>
+          {error && <div style={{ fontSize: '12px', color: '#dc2626', marginBottom: '6px' }}>{error}</div>}
           <div style={{ display: 'flex', gap: '6px' }}>
             <button form={`edit-${customer.id}`} type="submit" disabled={saving} style={{
               padding: '6px 12px', background: '#16a34a', color: '#fff',
@@ -200,8 +235,21 @@ export function CustomerTable({ customers: initial }: { customers: Customer[] })
   const [customers, setCustomers] = useState(initial);
   const [adding, setAdding] = useState(false);
 
-  // After mutations, Next.js revalidates so the page re-fetches on next navigation.
-  // For instant UI, just close the add row — server revalidation handles the refresh.
+  useEffect(() => {
+    setCustomers(initial);
+  }, [initial]);
+
+  function handleUpdate(updated: Customer) {
+    setCustomers(prev => prev.map(c => c.id === updated.id ? updated : c));
+  }
+
+  function handleDelete(id: string) {
+    setCustomers(prev => prev.filter(c => c.id !== id));
+  }
+
+  function handleAdded(customer: Customer) {
+    setCustomers(prev => [...prev, customer].sort((a, b) => a.name.localeCompare(b.name)));
+  }
 
   return (
     <div style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: '12px', overflow: 'hidden' }}>
@@ -240,9 +288,9 @@ export function CustomerTable({ customers: initial }: { customers: Customer[] })
               </tr>
             </thead>
             <tbody>
-              {adding && <AddRow onDone={() => setAdding(false)} />}
+              {adding && <AddRow onDone={() => setAdding(false)} onAdded={handleAdded} />}
               {customers.map((c) => (
-                <CustomerRow key={c.id} customer={c} onRefresh={() => {}} />
+                <CustomerRow key={c.id} customer={c} onUpdate={handleUpdate} onDelete={handleDelete} />
               ))}
             </tbody>
           </table>

@@ -15,10 +15,11 @@ export async function createCustomer(formData: FormData) {
 
   if (!payload.name) throw new Error('Name is required');
 
-  const { error } = await supabase.from('customers').insert(payload);
+  const { data, error } = await supabase.from('customers').insert(payload).select('*').single();
   if (error) throw new Error(error.message);
 
   revalidatePath('/customers');
+  return data;
 }
 
 export async function updateCustomer(id: string, formData: FormData) {
