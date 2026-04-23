@@ -1,0 +1,14 @@
+{
+  "/api/calendar/route": "/api/calendar",
+  "/_not-found/page": "/_not-found",
+  "/calendar/page": "/calendar",
+  "/customers/page": "/customers",
+  "/dashboard/page": "/dashboard",
+  "/page": "/",
+  "/projects/page": "/projects",
+  "/login/page": "/login",
+  "/projects/new/page": "/projects/new",
+  "/settings/page": "/settings",
+  "/projects/[id]/page": "/projects/[id]",
+  "/projects/[id]/edit/page": "/projects/[id]/edit"
+}
