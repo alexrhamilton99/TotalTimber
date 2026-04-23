@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { signOut } from '@/app/login/actions';
 
 const links = [
   {
@@ -135,7 +136,7 @@ export function Sidebar() {
       </nav>
 
       {/* Footer CTA */}
-      <div style={{ padding: '12px 16px', borderTop: '1px solid #292524' }}>
+      <div style={{ padding: '12px 16px', borderTop: '1px solid #292524', display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <Link href="/projects/new" style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
           padding: '9px', borderRadius: '8px', background: '#d97706',
@@ -145,6 +146,21 @@ export function Sidebar() {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           New Project
         </Link>
+        <form action={signOut}>
+          <button type="submit" style={{
+            width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+            padding: '8px', borderRadius: '8px', background: 'transparent',
+            color: '#57534e', fontSize: '12px', fontWeight: '500',
+            border: '1px solid #292524', cursor: 'pointer', fontFamily: 'inherit',
+          }}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+            Sign Out
+          </button>
+        </form>
       </div>
     </aside>
   );
