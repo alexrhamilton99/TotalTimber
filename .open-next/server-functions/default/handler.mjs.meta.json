@@ -3232,62 +3232,62 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/projects/[id]/edit/page_client-reference-manifest.js": {
-      "bytes": 9798,
+      "bytes": 10081,
       "imports": [],
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/projects/[id]/page_client-reference-manifest.js": {
-      "bytes": 9558,
+      "bytes": 9841,
       "imports": [],
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/api/calendar/route_client-reference-manifest.js": {
-      "bytes": 9131,
+      "bytes": 9414,
       "imports": [],
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/projects/new/page_client-reference-manifest.js": {
-      "bytes": 9655,
+      "bytes": 9938,
       "imports": [],
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/_not-found/page_client-reference-manifest.js": {
-      "bytes": 9124,
+      "bytes": 9407,
       "imports": [],
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/dashboard/page_client-reference-manifest.js": {
-      "bytes": 9546,
+      "bytes": 9829,
       "imports": [],
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/customers/page_client-reference-manifest.js": {
-      "bytes": 9182,
-      "imports": [],
-      "format": "cjs"
-    },
-    ".open-next/server-functions/default/.next/server/app/settings/page_client-reference-manifest.js": {
-      "bytes": 9120,
+      "bytes": 9465,
       "imports": [],
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/projects/page_client-reference-manifest.js": {
-      "bytes": 9435,
+      "bytes": 9718,
+      "imports": [],
+      "format": "cjs"
+    },
+    ".open-next/server-functions/default/.next/server/app/settings/page_client-reference-manifest.js": {
+      "bytes": 9403,
       "imports": [],
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/calendar/page_client-reference-manifest.js": {
-      "bytes": 9178,
+      "bytes": 9461,
       "imports": [],
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/login/page_client-reference-manifest.js": {
-      "bytes": 9318,
+      "bytes": 9601,
       "imports": [],
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/page_client-reference-manifest.js": {
-      "bytes": 9017,
+      "bytes": 9300,
       "imports": [],
       "format": "cjs"
     },
@@ -3350,14 +3350,14 @@
           "original": "C:\\Users\\alexr\\OneDrive\\Desktop\\buildflow-fixed (2)\\buildflow\\.open-next\\server-functions\\default\\.next\\server\\app\\customers\\page_client-reference-manifest.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/app/settings/page_client-reference-manifest.js",
-          "kind": "require-call",
-          "original": "C:\\Users\\alexr\\OneDrive\\Desktop\\buildflow-fixed (2)\\buildflow\\.open-next\\server-functions\\default\\.next\\server\\app\\settings\\page_client-reference-manifest.js"
-        },
-        {
           "path": ".open-next/server-functions/default/.next/server/app/projects/page_client-reference-manifest.js",
           "kind": "require-call",
           "original": "C:\\Users\\alexr\\OneDrive\\Desktop\\buildflow-fixed (2)\\buildflow\\.open-next\\server-functions\\default\\.next\\server\\app\\projects\\page_client-reference-manifest.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/.next/server/app/settings/page_client-reference-manifest.js",
+          "kind": "require-call",
+          "original": "C:\\Users\\alexr\\OneDrive\\Desktop\\buildflow-fixed (2)\\buildflow\\.open-next\\server-functions\\default\\.next\\server\\app\\settings\\page_client-reference-manifest.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/app/calendar/page_client-reference-manifest.js",
@@ -4336,7 +4336,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/dashboard/page.js": {
-      "bytes": 27924,
+      "bytes": 28940,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
@@ -7286,40 +7286,40 @@
           "bytesInOutput": 586
         },
         ".open-next/server-functions/default/.next/server/app/projects/[id]/edit/page_client-reference-manifest.js": {
-          "bytesInOutput": 9107
+          "bytesInOutput": 9353
         },
         ".open-next/server-functions/default/.next/server/app/projects/[id]/page_client-reference-manifest.js": {
-          "bytesInOutput": 8863
+          "bytesInOutput": 9109
         },
         ".open-next/server-functions/default/.next/server/app/api/calendar/route_client-reference-manifest.js": {
-          "bytesInOutput": 8436
+          "bytesInOutput": 8682
         },
         ".open-next/server-functions/default/.next/server/app/projects/new/page_client-reference-manifest.js": {
-          "bytesInOutput": 8959
+          "bytesInOutput": 9205
         },
         ".open-next/server-functions/default/.next/server/app/_not-found/page_client-reference-manifest.js": {
-          "bytesInOutput": 8426
+          "bytesInOutput": 8672
         },
         ".open-next/server-functions/default/.next/server/app/dashboard/page_client-reference-manifest.js": {
-          "bytesInOutput": 8847
+          "bytesInOutput": 9093
         },
         ".open-next/server-functions/default/.next/server/app/customers/page_client-reference-manifest.js": {
-          "bytesInOutput": 8483
-        },
-        ".open-next/server-functions/default/.next/server/app/settings/page_client-reference-manifest.js": {
-          "bytesInOutput": 8420
+          "bytesInOutput": 8729
         },
         ".open-next/server-functions/default/.next/server/app/projects/page_client-reference-manifest.js": {
-          "bytesInOutput": 8735
+          "bytesInOutput": 8981
+        },
+        ".open-next/server-functions/default/.next/server/app/settings/page_client-reference-manifest.js": {
+          "bytesInOutput": 8666
         },
         ".open-next/server-functions/default/.next/server/app/calendar/page_client-reference-manifest.js": {
-          "bytesInOutput": 8478
+          "bytesInOutput": 8724
         },
         ".open-next/server-functions/default/.next/server/app/login/page_client-reference-manifest.js": {
-          "bytesInOutput": 8616
+          "bytesInOutput": 8862
         },
         ".open-next/server-functions/default/.next/server/app/page_client-reference-manifest.js": {
-          "bytesInOutput": 8309
+          "bytesInOutput": 8555
         },
         ".open-next/server-functions/default/node_modules/next/dist/server/load-manifest.external.js": {
           "bytesInOutput": 24364
@@ -7433,7 +7433,7 @@
           "bytesInOutput": 29685
         },
         ".open-next/server-functions/default/.next/server/app/dashboard/page.js": {
-          "bytesInOutput": 28255
+          "bytesInOutput": 29316
         },
         ".open-next/server-functions/default/.next/server/app/calendar/page.js": {
           "bytesInOutput": 24563
@@ -7610,7 +7610,7 @@
           "bytesInOutput": 58934
         }
       },
-      "bytes": 3595040
+      "bytes": 3599053
     }
   }
 }
