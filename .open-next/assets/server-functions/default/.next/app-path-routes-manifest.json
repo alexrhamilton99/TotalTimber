@@ -1,14 +1,14 @@
 {
   "/_not-found/page": "/_not-found",
   "/api/calendar/route": "/api/calendar",
-  "/dashboard/page": "/dashboard",
-  "/calendar/page": "/calendar",
-  "/projects/[id]/edit/page": "/projects/[id]/edit",
-  "/customers/page": "/customers",
-  "/projects/[id]/page": "/projects/[id]",
-  "/page": "/",
   "/login/page": "/login",
-  "/projects/page": "/projects",
+  "/calendar/page": "/calendar",
+  "/page": "/",
+  "/projects/[id]/page": "/projects/[id]",
+  "/customers/page": "/customers",
+  "/projects/[id]/edit/page": "/projects/[id]/edit",
   "/projects/new/page": "/projects/new",
-  "/settings/page": "/settings"
+  "/settings/page": "/settings",
+  "/projects/page": "/projects",
+  "/dashboard/page": "/dashboard"
 }

@@ -26,6 +26,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/",
+      "dataRoute": "/index.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/login": {
       "experimentalBypassFor": [
         {
@@ -73,37 +97,13 @@
         "x-next-revalidated-tags",
         "x-next-revalidate-tag-token"
       ]
-    },
-    "/": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/",
-      "dataRoute": "/index.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
     }
   },
   "dynamicRoutes": {},
   "notFoundRoutes": [],
   "preview": {
-    "previewModeId": "3941eed864472989c57ed49cea0776b4",
-    "previewModeSigningKey": "d7eafd3055783b69984e2806182624895fcb1eac288143f0f71afe1cfb639a3b",
-    "previewModeEncryptionKey": "323339a5fcea857ac17788c0a0069315b0bf63bb1b59a3485580be359d493dcf"
+    "previewModeId": "b3c4bcfe1e6330f99609d887c7104319",
+    "previewModeSigningKey": "5529725de2d1dabd331871f77576ddc86a2c2c9b2e1f9e7ef5eece6550a988d3",
+    "previewModeEncryptionKey": "9c89a4416e3b5b60ba726906c0ef8008627bc5ee016c72a3f8a363dabd9a11a1"
   }
 }

@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "cf:build": "npx @opennextjs/cloudflare build && node scripts/cf-copy.js"
+    "cf:build": "node scripts/cf-clean.js && npx @opennextjs/cloudflare build && node scripts/cf-copy.js"
   },
   "dependencies": {
     "@supabase/ssr": "^0.7.0",
