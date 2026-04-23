@@ -37,17 +37,28 @@ const colorMap: Record<string, { bg: string; icon: string; label: string }> = {
   'Needs Payment':  { bg: '#fee2e2', icon: '#dc2626', label: '#991b1b' },
 };
 
-export function StatsCard({ title, value, detail }: { title: string; value: string; detail: string }) {
+export function StatsCard({
+  title, value, detail, onClick, active,
+}: {
+  title: string; value: string; detail: string;
+  onClick?: () => void; active?: boolean;
+}) {
   const colors = colorMap[title] || { bg: '#f5f5f4', icon: '#78716c', label: '#57534e' };
   const icon = iconMap[title];
 
   return (
-    <div style={{
-      background: '#fff',
-      border: '1px solid #e7e5e4',
-      borderRadius: '12px',
-      padding: '20px',
-    }}>
+    <div
+      onClick={onClick}
+      style={{
+        background: '#fff',
+        border: active ? `2px solid ${colors.icon}` : '1px solid #e7e5e4',
+        borderRadius: '12px',
+        padding: active ? '19px' : '20px',
+        cursor: onClick ? 'pointer' : 'default',
+        transition: 'border-color 0.15s, box-shadow 0.15s',
+        boxShadow: active ? `0 0 0 3px ${colors.bg}` : 'none',
+      }}
+    >
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: '12px', fontWeight: '600', color: '#78716c', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
