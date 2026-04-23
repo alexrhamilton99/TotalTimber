@@ -67,7 +67,7 @@ export default async function CalendarPage() {
       ) : (
         <div style={{ display: 'grid', gap: '20px' }}>
           {Object.entries(byMonth).sort().map(([month, projs]) => {
-            const label = new Date(month + '-01').toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+            const label = new Date(month + '-01T12:00:00').toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
             return (
               <div key={month} style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: '12px', overflow: 'hidden' }}>
                 <div style={{ padding: '14px 20px', borderBottom: '1px solid #f5f5f4', background: '#fafaf9' }}>

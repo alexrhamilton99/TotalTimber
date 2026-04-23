@@ -22,21 +22,10 @@ export async function middleware(request: NextRequest) {
     },
   );
 
-  const { data: { user } } = await supabase.auth.getUser();
-  const path = request.nextUrl.pathname;
-  const isLoginPage = path === '/login';
-
-  if (!user && !isLoginPage) {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
-
-  if (user && isLoginPage) {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
-  }
-
+  await supabase.auth.getUser();
   return response;
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|api/calendar|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'],
 };

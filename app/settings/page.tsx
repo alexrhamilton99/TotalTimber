@@ -1,5 +1,3 @@
-import { ChangePasswordForm } from '@/components/change-password-form';
-
 export default function SettingsPage() {
   const inputStyle: React.CSSProperties = {
     width: '100%', borderRadius: '8px', border: '1.5px solid #e7e5e4',
@@ -58,17 +56,6 @@ export default function SettingsPage() {
           }}>
             Save Changes
           </button>
-        </div>
-      </div>
-
-      {/* Security */}
-      <div style={{ background: '#fff', border: '1px solid #e7e5e4', borderRadius: '12px', overflow: 'hidden', marginBottom: '16px' }}>
-        <div style={{ padding: '20px 24px', borderBottom: '1px solid #f5f5f4' }}>
-          <div style={{ fontSize: '15px', fontWeight: '600', color: '#1c1917' }}>Security</div>
-          <div style={{ fontSize: '13px', color: '#78716c', marginTop: '2px' }}>Change your login password</div>
-        </div>
-        <div style={{ padding: '24px' }}>
-          <ChangePasswordForm />
         </div>
       </div>
 

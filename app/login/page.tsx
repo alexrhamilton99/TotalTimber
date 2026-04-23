@@ -1,11 +1,11 @@
-'use client';
-
 import Image from 'next/image';
-import { useActionState } from 'react';
-import { login } from './actions';
 
 export default function LoginPage() {
-  const [error, formAction, pending] = useActionState(login, null);
+  const inputStyle: React.CSSProperties = {
+    width: '100%', borderRadius: '8px', border: '1.5px solid #e7e5e4',
+    background: '#fff', padding: '10px 12px', fontSize: '14px',
+    color: '#1c1917', outline: 'none', fontFamily: 'inherit',
+  };
 
   return (
     <div style={{
@@ -27,63 +27,34 @@ export default function LoginPage() {
           </h1>
           <p style={{ fontSize: '13px', color: '#78716c', margin: '0 0 24px' }}>Sign in to manage your projects</p>
 
-          {error && (
-            <div style={{
-              background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px',
-              padding: '10px 14px', marginBottom: '16px', fontSize: '13px', color: '#dc2626',
+          <form style={{ display: 'grid', gap: '16px' }}>
+            <div>
+              <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#57534e', marginBottom: '6px' }}>
+                Email Address
+              </label>
+              <input type="email" style={inputStyle} placeholder="you@example.com" required />
+            </div>
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                <label style={{ fontSize: '13px', fontWeight: '600', color: '#57534e' }}>Password</label>
+                <a href="#" style={{ fontSize: '12px', color: '#d97706', fontWeight: '500', textDecoration: 'none' }}>Forgot?</a>
+              </div>
+              <input type="password" style={inputStyle} placeholder="••••••••" required />
+            </div>
+            <button type="submit" style={{
+              width: '100%', padding: '11px', background: '#d97706', color: '#fff',
+              fontSize: '14px', fontWeight: '700', borderRadius: '8px',
+              border: 'none', cursor: 'pointer', fontFamily: 'inherit', marginTop: '4px',
+              letterSpacing: '0.01em',
             }}>
-              {error}
-            </div>
-          )}
-
-          <form action={formAction} style={{ display: 'grid', gap: '16px' }}>
-            <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#57534e', marginBottom: '6px' }}>
-                Username
-              </label>
-              <input
-                name="username"
-                type="text"
-                placeholder="kyle"
-                required
-                autoComplete="username"
-                style={{
-                  width: '100%', borderRadius: '8px', border: '1.5px solid #e7e5e4',
-                  background: '#fff', padding: '10px 12px', fontSize: '14px',
-                  color: '#1c1917', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box',
-                }}
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#57534e', marginBottom: '6px' }}>
-                Password
-              </label>
-              <input
-                name="password"
-                type="password"
-                placeholder="••••••••"
-                required
-                autoComplete="current-password"
-                style={{
-                  width: '100%', borderRadius: '8px', border: '1.5px solid #e7e5e4',
-                  background: '#fff', padding: '10px 12px', fontSize: '14px',
-                  color: '#1c1917', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box',
-                }}
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={pending}
-              style={{
-                width: '100%', padding: '11px', background: pending ? '#a8a29e' : '#d97706',
-                color: '#fff', fontSize: '14px', fontWeight: '700', borderRadius: '8px',
-                border: 'none', cursor: pending ? 'not-allowed' : 'pointer',
-                fontFamily: 'inherit', marginTop: '4px', letterSpacing: '0.01em',
-              }}
-            >
-              {pending ? 'Signing in…' : 'Sign In'}
+              Sign In
             </button>
           </form>
+
+          <p style={{ fontSize: '13px', color: '#78716c', textAlign: 'center', margin: '20px 0 0' }}>
+            Don&apos;t have an account?{' '}
+            <a href="#" style={{ color: '#d97706', fontWeight: '600', textDecoration: 'none' }}>Create one</a>
+          </p>
         </div>
 
         <p style={{ textAlign: 'center', fontSize: '12px', color: '#57534e', marginTop: '16px' }}>
