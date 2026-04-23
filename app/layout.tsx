@@ -29,17 +29,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="theme-color" content="#1c1917" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
-        <style>{`
-          .sidebar-wrapper {
-            display: flex;
-            flex-shrink: 0;
-          }
+        <style dangerouslySetInnerHTML={{ __html: `
+          .sidebar-wrapper { display: flex; flex-shrink: 0; }
           .mobile-bottom-nav {
             display: none;
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 0; left: 0; right: 0;
             background: #1c1917;
             border-top: 1px solid #292524;
             z-index: 100;
@@ -52,7 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
             .mobile-bottom-nav { display: flex; }
           }
-        `}</style>
+        ` }} />
       </head>
       <body>
         <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f5f4' }}>
